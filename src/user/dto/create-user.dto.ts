@@ -1,14 +1,14 @@
-import { IsEmpty, IsNumber, MinLength,IsAlphanumeric,IsEmail, } from "class-validator";
+import { IsNotEmpty, IsNumber, MinLength,IsAlphanumeric,IsEmail, } from "class-validator";
 
 
 export class CreateUserDto {
-    @IsEmpty({message: "Name field cannot be empty"})
-    firstName: string
+    @IsNotEmpty({message: "Name field cannot be empty"})
+    name: string;
     @IsEmail()
-    @IsEmpty({message: "Email field cannot be empty"})
+    @IsNotEmpty({message: "Email field cannot be empty"})
     email: string;
-    @IsEmpty({message: "password field cannot be empty"})
+    @IsNotEmpty({message: "password field cannot be empty"})
     @IsAlphanumeric()
     @MinLength(8)
-    password: string
+    password: string;
 }
