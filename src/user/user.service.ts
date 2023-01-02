@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { User, UserDocument } from './entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AuthDTO } from 'src/auth/dto/auth.user';
 
 @Injectable()
 export class UserService {
@@ -18,6 +19,11 @@ export class UserService {
     });
     
     return dataBody.save();
+  }
+
+  async findUserData(user: AuthDTO): Promise<any>{
+
+    return await this.userModel.findOne({email: user.email});
   }
 
   findAll() {
