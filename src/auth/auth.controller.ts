@@ -13,7 +13,6 @@ export class AuthController {
 
     res.setHeader('Authorization', `Bearer ${access_token}`);
     res.json({ account, access_token });
-    return account
   }
     
 }

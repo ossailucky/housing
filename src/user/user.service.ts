@@ -26,13 +26,16 @@ export class UserService {
     return await this.userModel.findOne({email: user.email});
   }
 
+  
+
   findAll() {
     return `This action returns all user`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<User> {
+    return this.userModel.findOne({ id }, {password:0});
   }
+
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
