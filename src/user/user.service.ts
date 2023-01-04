@@ -37,8 +37,14 @@ export class UserService {
   }
 
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<boolean>  {
+    const query = await this.userModel.updateOne({_id: id},updateUserDto);
+
+    if(query.matchedCount > 0) {
+      return true;
+    }
+    return false;
+
   }
 
   remove(id: number) {

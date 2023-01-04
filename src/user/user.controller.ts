@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { Req, UseGuards } from '@nestjs/common/decorators';
 
 @ApiTags("users")
 @Controller({version: "1", path: "users"})
@@ -25,9 +27,13 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Patch()
+  @UseGuards(JwtAuthGuard)
+  update(@Body() updateUserDto: UpdateUserDto,@Req() req) {
+    if(!req.user._id){
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
+    return this.userService.update(req.user._id, updateUserDto);
   }
 
   @Delete(':id')
