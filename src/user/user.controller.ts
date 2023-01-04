@@ -4,16 +4,17 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common/decorators';
+import { Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common/decorators';
 import { diskStorage } from 'multer';
 import path = require("path");
 import { v4 as uuidv4} from 'uuid';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { join } from 'path';
 
 
 const storage = {
   storage: diskStorage({
-    destination: "./uploads/profileImages",
+    destination: "./uploads/profileimages",
     filename: (req,file,cb)=>{
       const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
       const extension: string = path.parse(file.originalname).ext;
@@ -43,6 +44,11 @@ export class UserController {
     }
     
     return this.userService.uploadProfileImage(req.user._id, file.filename)
+  }
+
+  @Get("profileimage/:imagename")
+  findPfrofileImage(@Param("imagename") imagename, @Res() res){
+    return res.sendFile(join(process.cwd(), "./uploads/profileimages/" + imagename));
   }
 
   @Get()
