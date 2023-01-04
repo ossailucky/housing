@@ -28,8 +28,8 @@ export class UserService {
 
   
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll(): Promise<any> {
+    return this.userModel.find({},{password:0});
   }
 
   async findOne(id: string): Promise<User> {
