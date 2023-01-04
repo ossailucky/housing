@@ -33,7 +33,7 @@ export class UserService {
   }
 
   async findOne(id: string): Promise<User> {
-    return this.userModel.findOne({ id }, {password:0});
+    return await this.userModel.findOne({ id }, {password:0});
   }
 
 
@@ -45,6 +45,16 @@ export class UserService {
     }
     return false;
 
+  }
+
+  async uploadProfileImage(id: string, imageName: string): Promise<boolean>{
+    const query = await this.userModel.updateOne({_id: id}, {profileImage: imageName});
+    
+   if(query.matchedCount > 0){
+    return true;
+   }
+   return false;
+    
   }
 
   remove(id: number) {

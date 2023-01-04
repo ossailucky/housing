@@ -17,6 +17,8 @@ export class User {
   sex: string;
   @Prop({ type: Boolean, default: false })
   isAgent: boolean;
+  @Prop({type: String})
+  profileImage: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
