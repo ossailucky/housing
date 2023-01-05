@@ -19,6 +19,7 @@ export class User {
   isAgent: boolean;
   @Prop({type: String})
   profileImage: string;
+  // properties:
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
