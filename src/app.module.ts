@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import 'dotenv/config';
 import { MulterModule } from '@nestjs/platform-express/multer';
+import { PropertylistsModule } from './propertylists/propertylists.module';
 
 @Module({
   imports: [ 
@@ -14,7 +15,8 @@ import { MulterModule } from '@nestjs/platform-express/multer';
       dest: "./uploads",
     }),
     UserModule,
-    AuthModule],
+    AuthModule,
+    PropertylistsModule],
   controllers: [AppController],
   providers: [AppService],
 })
