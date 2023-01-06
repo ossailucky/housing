@@ -9,9 +9,17 @@ export class Propertylist {
     @Prop({type: mongoose.Schema.Types.ObjectId, ref: "User", required: true})
     agent:  string;
     @Prop([{type: Array}])
-    propertyImage: string[];
+    propertyImages: string[];
     @Prop({type: String})
-    propertyInfo: string;
+    propertyTitle: string;
+    @Prop({type: String})
+    propertyDesc: string;
+    @Prop({type: String})
+    propertyLocation: string;
+    @Prop({type: Number})
+    pricePerMonth: number;
+    @Prop({type: Number})
+    totalPackage: number;
 }
 
 export const PropertySchema = SchemaFactory.createForClass(Propertylist);

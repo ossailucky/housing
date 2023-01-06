@@ -60,4 +60,9 @@ export class UserService {
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
+
+  async saveProperty(user_id:string, id: string): Promise<any>{
+  
+    return  await this.userModel.updateOne({_id:user_id}, { $push: {posts:id}})
+}
 }

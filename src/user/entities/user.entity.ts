@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose,{ Document} from "mongoose";
+import { Propertylist } from "src/propertylists/entities/propertylist.entity";
 
 export type UserDocument = User & Document;
 
@@ -19,7 +20,8 @@ export class User {
   isAgent: boolean;
   @Prop({type: String})
   profileImage: string;
-  // properties:
+  @Prop([{type: mongoose.Schema.Types.ObjectId, ref: "Propertylist"}])
+   properties: Propertylist[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
