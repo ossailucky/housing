@@ -2,10 +2,10 @@ import { IsNotEmpty } from "class-validator";
 
 
 export class CreatePropertylistDto {
-    agent: string[];
-    propertyImages: string;
+    agent: string;
+    propertyImages: string[];
     propertyTitle: string;
-    propertytDesc: string;
+    propertyDesc: string;
     propertyLocation: string;
     pricePerMonth: number;
     totalPackage: number;

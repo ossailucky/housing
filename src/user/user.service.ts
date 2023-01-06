@@ -4,7 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { User, UserDocument } from './entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { AuthDTO } from 'src/auth/dto/auth.user';
 
 @Injectable()
@@ -61,8 +61,8 @@ export class UserService {
     return `This action removes a #${id} user`;
   }
 
-  async saveProperty(user_id:string, id: string): Promise<any>{
+  async saveProperty(user_id:string, id: any): Promise<any>{
   
-    return  await this.userModel.updateOne({_id:user_id}, { $push: {posts:id}})
+    return  await this.userModel.updateOne({_id:user_id}, { $push: {properties:id}})
 }
 }

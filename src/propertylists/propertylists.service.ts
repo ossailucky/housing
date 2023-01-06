@@ -9,7 +9,7 @@ import { PropertyDocument, Propertylist } from './entities/propertylist.entity';
 @Injectable()
 export class PropertylistsService {
   constructor(@InjectModel(Propertylist.name) private propertyModel: Model<PropertyDocument>, private userService:UserService){}
-    async create(createPropertylistDto:any): Promise<any>{
+    async create(createPropertylistDto:CreatePropertylistDto): Promise<any>{
       const property = new this.propertyModel({
         agent: createPropertylistDto.agent,
         propertyImages: createPropertylistDto.propertyImages,
