@@ -31,8 +31,8 @@ export class PropertylistsService {
     return `This action returns all propertylists`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} propertylist`;
+ async findOne(id: string) {
+    return await (await this.propertyModel.findById(id)).populate("agent",["email","name","phone", "profileImage"]);
   }
 
   update(id: number, updatePropertylistDto: UpdatePropertylistDto) {

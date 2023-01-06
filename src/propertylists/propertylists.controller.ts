@@ -55,7 +55,7 @@ export class PropertylistsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.propertylistsService.findOne(+id);
+    return this.propertylistsService.findOne(id);
   }
 
   @Patch(':id')
