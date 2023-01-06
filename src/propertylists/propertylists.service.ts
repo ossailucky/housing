@@ -24,11 +24,11 @@ export class PropertylistsService {
         await this.userService.saveProperty(createPropertylistDto.agent,saveProperty._id);
         return saveProperty;
       }
-    return 'This action adds a new propertylist';
+    return 'could not add property';
   }
 
-  findAll() {
-    return `This action returns all propertylists`;
+ async findAll() {
+    return await this.propertyModel.find({}).populate("agent",["email","name","phone", "profileImage"]);
   }
 
  async findOne(id: string) {
