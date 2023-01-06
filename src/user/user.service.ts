@@ -29,11 +29,11 @@ export class UserService {
   
 
   async findAll(): Promise<any> {
-    return this.userModel.find({},{password:0});
+    return this.userModel.find({},{password:0}).populate("properties");
   }
 
   async findOne(id: string): Promise<User> {
-    return await this.userModel.findOne({ id }, {password:0});
+    return await (await this.userModel.findOne({ id }, {password:0})).populate("properties");
   }
 
 
