@@ -64,7 +64,7 @@ export class PropertylistsController {
     if(!req.user._id){
       throw new HttpException("Forbidden", HttpStatus.FORBIDDEN)
     }
-    return this.propertylistsService.update(id,req.user._id, updatePropertylistDto,);
+    return this.propertylistsService.update(id, updatePropertylistDto,);
   }
 
   @Delete(':id')
