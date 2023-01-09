@@ -35,8 +35,13 @@ export class PropertylistsService {
     return await (await this.propertyModel.findById(id)).populate("agent",["email","name","phone", "profileImage"]);
   }
 
-  update(id: number, updatePropertylistDto: UpdatePropertylistDto) {
-    return `This action updates a #${id} propertylist`;
+ async update(id: string,userId: string, updatePropertylistDto: UpdatePropertylistDto) {
+  const query = await this.propertyModel.updateOne({_id:id},updatePropertylistDto);
+
+  if(query.matchedCount > 0){
+    return true
+  }
+    return false;
   }
 
   remove(id: number) {

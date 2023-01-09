@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFiles, Options } from '@nestjs/common';
+import { Controller, Get, Post, Req, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFiles, Options, HttpException, HttpStatus } from '@nestjs/common';
 import { PropertylistsService } from './propertylists.service';
 import { CreatePropertylistDto } from './dto/create-propertylist.dto';
 import { UpdatePropertylistDto } from './dto/update-propertylist.dto';
@@ -58,9 +58,13 @@ export class PropertylistsController {
     return this.propertylistsService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePropertylistDto: UpdatePropertylistDto) {
-    return this.propertylistsService.update(+id, updatePropertylistDto);
+  update(@Param('id') id: string, @Body() updatePropertylistDto: UpdatePropertylistDto, @Req() req) {
+    if(!req.user._id){
+      throw new HttpException("Forbidden", HttpStatus.FORBIDDEN)
+    }
+    return this.propertylistsService.update(id,req.user._id, updatePropertylistDto,);
   }
 
   @Delete(':id')
