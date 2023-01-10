@@ -26,7 +26,6 @@ export class AuthService {
             
         
             const account = await this.userService.findUserData(authDto);
-            console.log(account);
             
             return{
                 account,

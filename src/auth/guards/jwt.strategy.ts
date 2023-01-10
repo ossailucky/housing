@@ -3,9 +3,10 @@ import { PassportStrategy } from "@nestjs/passport/";
 import { Injectable } from "@nestjs/common";
 import "dotenv/config";
 import { AuthDTO } from "../dto/auth.user";
+import { UserService } from "src/user/user.service";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, "jwt"){
-    constructor(){
+    constructor(private userService: UserService){
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
@@ -14,6 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt"){
     }
 
     async validate(payload: AuthDTO){
-        return { ...payload};
+        const user = await this.userService.findData(payload._id);
+        return { ...user};
     }
 }

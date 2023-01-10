@@ -13,6 +13,7 @@ import { join } from 'path';
 import { hasRoles } from 'src/auth/decorators/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/auth/guards/roles.guards';
+import { Role } from './entities/user.entity';
 
 
 const storage = {
@@ -54,7 +55,7 @@ export class UserController {
     return res.sendFile(join(process.cwd(), "./uploads/profileimages/" + imagename));
   }
 
-  @hasRoles("Admin")
+  @hasRoles(Role.ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {

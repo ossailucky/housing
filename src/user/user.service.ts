@@ -26,7 +26,9 @@ export class UserService {
     return await this.userModel.findOne({email: user.email});
   }
 
-  
+  async findData(id:string): Promise<User>{
+    return await this.userModel.findById(id);
+  }
 
   async findAll(): Promise<any> {
     return this.userModel.find({},{password:0}).populate("properties");
