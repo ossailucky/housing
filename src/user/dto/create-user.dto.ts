@@ -11,4 +11,5 @@ export class CreateUserDto {
     @IsAlphanumeric()
     @MinLength(8)
     password: string;
+    role: string;
 }

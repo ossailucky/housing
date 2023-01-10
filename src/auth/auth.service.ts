@@ -12,27 +12,33 @@ export class AuthService {
     
     async validate(authDto: AuthDTO): Promise<any>{
         const user = await this.userService.findUserData(authDto);
+        
         if(!user){
             throw new HttpException("Not a User", HttpStatus.UNAUTHORIZED);
-        }
-
-        const match = await bcrypt.compare(authDto.password, user.password);
+        }else{
+            const match = await bcrypt.compare(authDto.password, user.password);
 
         if(match){
             const accessToken = await this.isAuthenticate({
-                _id: user._id
+                _id: user._id,
+               
             });
+            
         
-            const account = await this.userService.findOne(user._id);
-
+            const account = await this.userService.findUserData(authDto);
+            console.log(account);
+            
             return{
                 account,
                 ...accessToken
-            }
+            };
 
         }else {
-      throw new HttpException('invalid details', HttpStatus.UNAUTHORIZED);
-    }
+             throw new HttpException('invalid details', HttpStatus.UNAUTHORIZED);
+      }
+}
+
+        
     }
 
     async isAuthenticate(user: AuthorizeDTO){

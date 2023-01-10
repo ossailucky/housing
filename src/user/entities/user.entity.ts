@@ -4,6 +4,8 @@ import { Propertylist } from "src/propertylists/entities/propertylist.entity";
 
 export type UserDocument = User & Document;
 
+
+
 @Schema({timestamps:true})
 export class User {
   @Prop({ type: String, required: true })
@@ -22,6 +24,8 @@ export class User {
   profileImage: string;
   @Prop([{type: mongoose.Schema.Types.ObjectId, ref: "Propertylist"}])
    properties: Propertylist[];
+  @Prop()
+  role:string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -8,6 +8,7 @@ export class AuthDTO {
     @MinLength(8)
     @IsNotEmpty({message: "password field cannot be empty"})
     password: string;
+    role: string;
 }
 
 export class AuthorizeDTO{

@@ -10,6 +10,9 @@ import path = require("path");
 import { v4 as uuidv4} from 'uuid';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { join } from 'path';
+import { hasRoles } from 'src/auth/decorators/roles.decorator';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/auth/guards/roles.guards';
 
 
 const storage = {
@@ -51,6 +54,8 @@ export class UserController {
     return res.sendFile(join(process.cwd(), "./uploads/profileimages/" + imagename));
   }
 
+  @hasRoles("Admin")
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.userService.findAll();
