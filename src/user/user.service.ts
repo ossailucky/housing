@@ -59,9 +59,15 @@ export class UserService {
     
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+ async remove(id: string): Promise<boolean> {
+  const query = await this.userModel.findByIdAndDelete(id);
+
+  if(!query){
+    return false;
   }
+  return true;
+}
+
 
   async saveProperty(user_id:string, id: any): Promise<any>{
   

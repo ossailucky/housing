@@ -77,7 +77,9 @@ export class UserController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @hasRoles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  remove(@Param('id') id: string, @Req() { user }: any) {
+    return this.userService.remove(id);
   }
 }
