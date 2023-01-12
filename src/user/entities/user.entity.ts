@@ -27,8 +27,8 @@ export class User {
   profileImage: string;
   @Prop([{type: mongoose.Schema.Types.ObjectId, ref: "Propertylist"}])
    properties: Propertylist[];
-  @Prop()
-  role:Role[];
+  @Prop({type: String, enum: Role, default: Role.AGENT})
+  role:Role;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

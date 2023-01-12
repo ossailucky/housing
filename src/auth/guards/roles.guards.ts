@@ -3,6 +3,7 @@ import { Reflector } from "@nestjs/core";
 import { Observable } from "rxjs";
 import { Role } from "src/user/entities/user.entity";
 import { UserService } from "src/user/user.service";
+import { ROLES_KEY } from "../decorators/roles.decorator";
 
 @Injectable()
 export class RolesGuard implements CanActivate{ 
@@ -12,16 +13,15 @@ export class RolesGuard implements CanActivate{
         ){}
 
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-        const roles = this.reflector.get<Role[]>("roles", context.getHandler());
+        const roles = this.reflector.get<Role[]>(ROLES_KEY, context.getHandler());
 
         if(!roles){
             return true;
         }
-        const request = context.switchToHttp().getRequest();
+        const {user} = context.switchToHttp().getRequest();
         
-        const user = request.user;
         
-        return roles.some((role)=> user.role?.includes(role));
+        return roles.some((role)=> user._doc.role?.includes(role));
 
     }
 }
