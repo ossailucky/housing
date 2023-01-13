@@ -49,7 +49,8 @@ export class PropertylistsService {
     
     const user = await this.propertyModel.findById(id);
     
-    const agentInfo = await this.userService.findOne(userId);
+    const agentInfo = await this.userService.findData(userId);
+    
 
     if( user.agent.toString() === userId.toString() || agentInfo.role === Role.ADMIN){
       const query = await this.propertyModel.findByIdAndDelete(id);
