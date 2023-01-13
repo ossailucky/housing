@@ -8,6 +8,9 @@ import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestj
 import { diskStorage } from 'multer';
 import { v4 as uuidv4} from "uuid";
 import path = require("path");
+import { RolesGuard } from 'src/auth/guards/roles.guards';
+import { hasRoles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/user/entities/user.entity';
 
 const storage ={
   storage: diskStorage({
@@ -32,10 +35,12 @@ export class PropertylistsController {
 
   create( 
     @UploadedFiles() files: {
-      propertyImages:Array<Express.Multer.File>,}, @Body() createPropertylistDto,@Req() req) {
+      propertyImages:Array<Express.Multer.File>,}, @Body() createPropertylistDto,@Req() {user}) {
+        const agentId = user._doc._id
+        
       
         const body = {
-          agent: req.user._id,
+          agent: agentId,
           propertyImages: [files[0].filename,files[1].filename],
           propertyTitle: createPropertylistDto.propertyTitle,
           propertyDesc: createPropertylistDto.propertyDesc,
@@ -60,15 +65,19 @@ export class PropertylistsController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePropertylistDto: UpdatePropertylistDto, @Req() req) {
-    if(!req.user._id){
+  update(@Param('id') id: string, @Body() updatePropertylistDto: UpdatePropertylistDto, @Req() {user}:any) {
+    if(!user._doc._id ){
       throw new HttpException("Forbidden", HttpStatus.FORBIDDEN)
     }
     return this.propertylistsService.update(id, updatePropertylistDto,);
   }
 
+  @hasRoles(Role.ADMIN, Role.AGENT)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.propertylistsService.remove(+id);
+  remove(@Param('id') id: string, @Req() {user}: any) {
+    const userId = user._doc._id;
+    
+   // return this.propertylistsService.remove(id, userId);
   }
 }

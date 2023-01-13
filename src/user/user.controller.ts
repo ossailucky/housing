@@ -42,12 +42,12 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Post("/profileimage")
   @UseInterceptors(FileInterceptor("image", storage))
-  ProfileIamge(@UploadedFile() file, @Req() req){
-    if(!req.user._id){
+  ProfileIamge(@UploadedFile() file, @Req() {user}){
+    if(!user._doc._id){
       throw new HttpException("Forbidden", HttpStatus.FORBIDDEN);
     }
     
-    return this.userService.uploadProfileImage(req.user._id, file.filename)
+    return this.userService.uploadProfileImage(user._doc._id, file.filename)
   }
 
   @Get("profileimage/:imagename")
@@ -69,11 +69,11 @@ export class UserController {
 
   @Patch()
   @UseGuards(JwtAuthGuard)
-  update(@Body() updateUserDto: UpdateUserDto,@Req() req) {
-    if(!req.user._id){
+  update(@Body() updateUserDto: UpdateUserDto,@Req() { user }: any) {
+    if(!user._doc._id){
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
-    return this.userService.update(req.user._id, updateUserDto);
+    return this.userService.update(user._doc._id, updateUserDto);
   }
 
   @Delete(':id')

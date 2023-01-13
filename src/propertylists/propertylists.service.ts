@@ -44,7 +44,11 @@ export class PropertylistsService {
     return false;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} propertylist`;
+ async remove(id: string): Promise<boolean> {
+    const query = await this.propertyModel.findByIdAndDelete(id);
+    if(query){
+      return true;
+    }
+    return false;
   }
 }
