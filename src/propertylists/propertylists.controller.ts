@@ -76,8 +76,10 @@ export class PropertylistsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string, @Req() {user}: any) {
+    console.log(user);
+    
     const userId = user._doc._id;
     
-   // return this.propertylistsService.remove(id, userId);
+    return this.propertylistsService.remove(id, userId);
   }
 }

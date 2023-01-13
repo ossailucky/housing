@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Role } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { CreatePropertylistDto } from './dto/create-propertylist.dto';
 import { UpdatePropertylistDto } from './dto/update-propertylist.dto';
@@ -44,11 +45,23 @@ export class PropertylistsService {
     return false;
   }
 
- async remove(id: string): Promise<boolean> {
-    const query = await this.propertyModel.findByIdAndDelete(id);
-    if(query){
+ async remove(id: string, userId: string): Promise<boolean> {
+    
+    const user = await this.propertyModel.findById(id);
+    
+    const agentInfo = await this.userService.findOne(userId);
+
+    if( user.agent.toString() === userId.toString() || agentInfo.role === Role.ADMIN){
+      const query = await this.propertyModel.findByIdAndDelete(id);
+      if(query){
       return true;
+
+      }
+
+      return false;
+      
     }
     return false;
+    
   }
 }
