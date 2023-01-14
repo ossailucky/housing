@@ -54,12 +54,7 @@ export class PropertylistsService {
 
     if( user.agent.toString() === userId.toString() || agentInfo.role === Role.ADMIN){
       const query = await this.propertyModel.findByIdAndDelete(id);
-      if(query){
-      return true;
-
-      }
-
-      return false;
+      if(query) return true;
       
     }
     return false;
