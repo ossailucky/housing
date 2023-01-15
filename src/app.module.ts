@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import 'dotenv/config';
 import { MulterModule } from '@nestjs/platform-express/multer';
 import { PropertylistsModule } from './propertylists/propertylists.module';
+import { SubcribeModule } from './subcribe/subcribe.module';
 
 @Module({
   imports: [ 
@@ -16,7 +17,8 @@ import { PropertylistsModule } from './propertylists/propertylists.module';
     }),
     UserModule,
     AuthModule,
-    PropertylistsModule],
+    PropertylistsModule,
+    SubcribeModule],
   controllers: [AppController],
   providers: [AppService],
 })
