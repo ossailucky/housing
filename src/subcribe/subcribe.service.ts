@@ -1,11 +1,20 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateSubcribeDto } from './dto/create-subcribe.dto';
 import { UpdateSubcribeDto } from './dto/update-subcribe.dto';
+import { Subscription, SubscriptionDocument } from './entities/subcribe.entity';
 
 @Injectable()
 export class SubcribeService {
-  create(createSubcribeDto: CreateSubcribeDto) {
-    return 'This action adds a new subcribe';
+  constructor(@InjectModel(Subscription.name) private subcriptionModel: Model<SubscriptionDocument>) {}
+ async create(body: CreateSubcribeDto): Promise<Subscription> {
+  const data = new this.subcriptionModel({
+    packageName: body.packageName,
+    packagePrice: body.packagePrice,
+    propertyLimit: body.propertyLimit
+  });
+    return data.save();
   }
 
   findAll() {
