@@ -17,8 +17,8 @@ export class SubcribeService {
     return data.save();
   }
 
-  findAll() {
-    return `This action returns all subcribe`;
+  async findAll(): Promise<any> {
+    return await this.subcriptionModel.find({});
   }
 
   findOne(id: number) {
