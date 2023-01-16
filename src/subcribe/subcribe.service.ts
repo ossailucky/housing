@@ -21,8 +21,8 @@ export class SubcribeService {
     return await this.subcriptionModel.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subcribe`;
+ async findOne(id: string): Promise<Subscription> {
+    return await this.subcriptionModel.findById(id);
   }
 
   update(id: number, updateSubcribeDto: UpdateSubcribeDto) {

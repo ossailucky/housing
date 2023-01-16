@@ -29,7 +29,7 @@ export class SubcribeController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.subcribeService.findOne(+id);
+    return this.subcribeService.findOne(id);
   }
 
   @Patch(':id')
