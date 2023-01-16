@@ -27,7 +27,7 @@ export class SubcribeService {
 
  async update(id: string, body: UpdateSubcribeDto): Promise<boolean> {
   const query = await this.subcriptionModel.updateOne({_id:id}, body);
-  if(query.modifiedCount) return true;
+  if(query.matchedCount) return true;
     return false;
   }
   
