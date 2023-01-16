@@ -25,9 +25,12 @@ export class SubcribeService {
     return await this.subcriptionModel.findById(id);
   }
 
-  update(id: number, updateSubcribeDto: UpdateSubcribeDto) {
-    return `This action updates a #${id} subcribe`;
+ async update(id: string, body: UpdateSubcribeDto): Promise<boolean> {
+  const query = await this.subcriptionModel.updateOne({_id:id}, body);
+  if(query.modifiedCount) return true;
+    return false;
   }
+  
 
   remove(id: number) {
     return `This action removes a #${id} subcribe`;

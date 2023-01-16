@@ -32,9 +32,11 @@ export class SubcribeController {
     return this.subcribeService.findOne(id);
   }
 
+  @hasRoles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSubcribeDto: UpdateSubcribeDto) {
-    return this.subcribeService.update(+id, updateSubcribeDto);
+    return this.subcribeService.update(id, updateSubcribeDto);
   }
 
   @Delete(':id')
