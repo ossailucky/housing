@@ -39,8 +39,10 @@ export class SubcribeController {
     return this.subcribeService.update(id, updateSubcribeDto);
   }
 
+  @hasRoles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.subcribeService.remove(+id);
+    return this.subcribeService.remove(id);
   }
 }

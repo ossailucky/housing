@@ -32,7 +32,10 @@ export class SubcribeService {
   }
   
 
-  remove(id: number) {
-    return `This action removes a #${id} subcribe`;
+ async remove(id: string): Promise<boolean> {
+  const query = await this.subcriptionModel.findByIdAndDelete(id)
+  if(query) return true;
+    
+  return false;
   }
 }
