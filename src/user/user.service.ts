@@ -59,6 +59,13 @@ export class UserService {
     
   }
 
+  async subscribedPackage(id: string, packageName: string): Promise<string>{
+    const query = await this.userModel.updateOne({_id:id}, {subcribeToPackage: packageName});
+    if(query) return "subscription successfull";
+
+    return "subscription failed";
+  }
+
  async remove(id: string): Promise<boolean> {
   const query = await this.userModel.findByIdAndDelete(id);
 

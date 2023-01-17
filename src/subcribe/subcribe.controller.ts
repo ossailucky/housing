@@ -5,7 +5,7 @@ import { UpdateSubcribeDto } from './dto/update-subcribe.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { hasRoles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/user/entities/user.entity';
-import { UseGuards } from '@nestjs/common/decorators';
+import { Req, UseGuards } from '@nestjs/common/decorators';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guards';
 
@@ -37,6 +37,15 @@ export class SubcribeController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSubcribeDto: UpdateSubcribeDto) {
     return this.subcribeService.update(id, updateSubcribeDto);
+  }
+
+  @hasRoles(Role.AGENT)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch("buypackage/:id")
+  buyPackage(@Param("id") id: string, @Req() { user }: any){
+    
+    return this.subcribeService.buyPackage(id, user._doc._id);
+
   }
 
   @hasRoles(Role.ADMIN)

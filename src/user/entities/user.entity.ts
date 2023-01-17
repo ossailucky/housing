@@ -21,8 +21,8 @@ export class User {
   password: string;
   @Prop({ type: String, index:true })
   sex: string;
-  @Prop({ type: Boolean, default: false })
-  isAgent: boolean;
+  @Prop({ type: String})
+  subcribeToPackage: boolean;
   @Prop({type: String})
   profileImage: string;
   @Prop([{type: mongoose.Schema.Types.ObjectId, ref: "Propertylist"}])
