@@ -35,7 +35,7 @@ export class PropertylistsController {
 
   create( 
     @UploadedFiles() files: {
-      propertyImages:Array<Express.Multer.File>,}, @Body() createPropertylistDto,@Req() {user}) {
+      propertyImages:Array<Express.Multer.File>,}, @Body() createPropertylistDto,@Req() { user }) {
         const agentId = user._doc._id
         
       

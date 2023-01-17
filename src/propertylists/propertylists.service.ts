@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common/enums';
+import { HttpException } from '@nestjs/common/exceptions';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Role } from 'src/user/entities/user.entity';
@@ -11,21 +13,29 @@ import { PropertyDocument, Propertylist } from './entities/propertylist.entity';
 export class PropertylistsService {
   constructor(@InjectModel(Propertylist.name) private propertyModel: Model<PropertyDocument>, private userService:UserService){}
     async create(createPropertylistDto:CreatePropertylistDto): Promise<any>{
-      const property = new this.propertyModel({
-        agent: createPropertylistDto.agent,
-        propertyImages: createPropertylistDto.propertyImages,
-        propertyTitle: createPropertylistDto.propertyTitle,
-        propertyDesc: createPropertylistDto.propertyDesc,
-        propertyLocation: createPropertylistDto.propertyLocation,
-        pricePerMonth: createPropertylistDto.pricePerMonth,
-        totalPackage: createPropertylistDto.totalPackage,
-      })
-      if(property){
-        const saveProperty = await property.save();
-        await this.userService.saveProperty(createPropertylistDto.agent,saveProperty._id);
-        return saveProperty;
+      const isUserSubscribed = await this.userService.findData(createPropertylistDto.agent);
+      console.log(isUserSubscribed.subcribeToPackage);
+      
+      if(isUserSubscribed.subcribeToPackage === null || isUserSubscribed.subcribeToPackage === undefined){
+        throw new HttpException("You are not subscribed to any of our plans", HttpStatus.FORBIDDEN);
+      }else{
+        const property = new this.propertyModel({
+          agent: createPropertylistDto.agent,
+          propertyImages: createPropertylistDto.propertyImages,
+          propertyTitle: createPropertylistDto.propertyTitle,
+          propertyDesc: createPropertylistDto.propertyDesc,
+          propertyLocation: createPropertylistDto.propertyLocation,
+          pricePerMonth: createPropertylistDto.pricePerMonth,
+          totalPackage: createPropertylistDto.totalPackage,
+        })
+        if(property){
+          const saveProperty = await property.save();
+          await this.userService.saveProperty(createPropertylistDto.agent,saveProperty._id);
+          return saveProperty;
+        }
+      return 'could not add property';
       }
-    return 'could not add property';
+      
   }
 
  async findAll() {
