@@ -38,6 +38,10 @@ export class SubcribeService {
   return await this.userService.subscribedPackage(userId,packageName);
   
  }
+
+ async findByname(name: string): Promise<Subscription>{
+  return await this.subcriptionModel.findOne({packageName: name});
+ }
   
 
  async remove(id: string): Promise<boolean> {

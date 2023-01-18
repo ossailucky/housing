@@ -11,6 +11,7 @@ import { Subscription, SubscriptionSchema } from './entities/subcribe.entity';
     MongooseModule.forFeature([{name: Subscription.name, schema: SubscriptionSchema}])
   ],
   controllers: [SubcribeController],
-  providers: [SubcribeService]
+  providers: [SubcribeService],
+  exports:[ SubcribeService ]
 })
 export class SubcribeModule {}

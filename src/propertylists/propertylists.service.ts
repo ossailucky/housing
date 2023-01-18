@@ -3,6 +3,7 @@ import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { SubcribeService } from 'src/subcribe/subcribe.service';
 import { Role } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { CreatePropertylistDto } from './dto/create-propertylist.dto';
@@ -11,15 +12,21 @@ import { PropertyDocument, Propertylist } from './entities/propertylist.entity';
 
 @Injectable()
 export class PropertylistsService {
-  constructor(@InjectModel(Propertylist.name) private propertyModel: Model<PropertyDocument>, private userService:UserService){}
+  constructor(@InjectModel(Propertylist.name) private propertyModel: Model<PropertyDocument>, private userService:UserService, private subscribeService: SubcribeService){}
     async create(createPropertylistDto:CreatePropertylistDto): Promise<any>{
 
       const user = await this.userService.findData(createPropertylistDto.agent);
+
+      const plan = await this.subscribeService.findByname(user.subcribeToPackage.toString())
       
       
       if(user.subcribeToPackage === null || user.subcribeToPackage === undefined){
         throw new HttpException("You are not subscribed to any of our plans", HttpStatus.FORBIDDEN);
-      }else{
+      } else if(user.properties.length >= plan.propertyLimit){
+        throw new HttpException("you have reach your property listing limit for your plan", HttpStatus.FORBIDDEN);
+
+      }
+      else{
         const property = new this.propertyModel({
           agent: createPropertylistDto.agent,
           propertyImages: createPropertylistDto.propertyImages,
