@@ -34,9 +34,13 @@ export class PropertylistsController {
   @UseInterceptors(FilesInterceptor("propertyImages",20,storage))
 
   create( 
-    @UploadedFiles() files: {
-      propertyImages:Array<Express.Multer.File>,}, @Body() createPropertylistDto,@Req() { user }) {
+    @UploadedFiles() files: 
+      Array<Express.Multer.File>, @Body() createPropertylistDto,@Req() { user }) {
         const agentId = user._doc._id
+
+        if(files.length != 2){
+          throw new HttpException("property images must be equal to two",HttpStatus.BAD_REQUEST)
+        }
         
       
         const body = {
