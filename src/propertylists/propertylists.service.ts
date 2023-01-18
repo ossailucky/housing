@@ -13,10 +13,11 @@ import { PropertyDocument, Propertylist } from './entities/propertylist.entity';
 export class PropertylistsService {
   constructor(@InjectModel(Propertylist.name) private propertyModel: Model<PropertyDocument>, private userService:UserService){}
     async create(createPropertylistDto:CreatePropertylistDto): Promise<any>{
-      const isUserSubscribed = await this.userService.findData(createPropertylistDto.agent);
+
+      const user = await this.userService.findData(createPropertylistDto.agent);
       
       
-      if(isUserSubscribed.subcribeToPackage === null || isUserSubscribed.subcribeToPackage === undefined){
+      if(user.subcribeToPackage === null || user.subcribeToPackage === undefined){
         throw new HttpException("You are not subscribed to any of our plans", HttpStatus.FORBIDDEN);
       }else{
         const property = new this.propertyModel({
