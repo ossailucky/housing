@@ -14,7 +14,7 @@ export class PropertylistsService {
   constructor(@InjectModel(Propertylist.name) private propertyModel: Model<PropertyDocument>, private userService:UserService){}
     async create(createPropertylistDto:CreatePropertylistDto): Promise<any>{
       const isUserSubscribed = await this.userService.findData(createPropertylistDto.agent);
-      console.log(isUserSubscribed.subcribeToPackage);
+      
       
       if(isUserSubscribed.subcribeToPackage === null || isUserSubscribed.subcribeToPackage === undefined){
         throw new HttpException("You are not subscribed to any of our plans", HttpStatus.FORBIDDEN);
