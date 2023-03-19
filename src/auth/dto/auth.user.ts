@@ -1,4 +1,4 @@
-import { IsNotEmpty,IsEmail,MinLength } from "class-validator";
+import { IsNotEmpty,IsEmail,MinLength, isEmail } from "class-validator";
 
 export class AuthDTO {
     _id: string;
@@ -14,4 +14,7 @@ export class AuthDTO {
 export class AuthorizeDTO{
     @IsNotEmpty()
     _id: string;
+    @IsNotEmpty({message: " Email field cannot be empty"})
+    email: string;
+    
 }
