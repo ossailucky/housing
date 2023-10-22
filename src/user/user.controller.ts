@@ -55,8 +55,8 @@ export class UserController {
     return res.sendFile(join(process.cwd(), "./uploads/profileimages/" + imagename));
   }
 
-  @hasRoles(Role.ADMIN)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @hasRoles(Role.ADMIN)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     

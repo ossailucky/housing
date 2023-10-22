@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 import { SubcribeService } from 'src/subcribe/subcribe.service';
 import { Role } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
-import { CreatePropertylistDto } from './dto/create-propertylist.dto';
+import { CreatePropertylistDto, SearchDto } from './dto/create-propertylist.dto';
 import { UpdatePropertylistDto } from './dto/update-propertylist.dto';
 import { PropertyDocument, Propertylist } from './entities/propertylist.entity';
 
@@ -51,7 +51,7 @@ export class PropertylistsService {
   }
 
  async findOne(id: string) {
-    return await (await this.propertyModel.findById(id)).populate("agent",["email","name","phone", "profileImage"]);
+    return await this.propertyModel.findById(id).populate("agent",["email","name","phone","profileImage"]).exec();
   }
 
  async update(id: string, updatePropertylistDto: UpdatePropertylistDto) {
@@ -77,5 +77,23 @@ export class PropertylistsService {
     }
     return false;
     
+  }
+
+  async searchProperties(query:SearchDto): Promise<Propertylist[]>{
+    const filters = {};
+
+    if(query.propertyLocation){
+      filters["propertyLocation"] = query.propertyLocation;
+    }
+
+    if(query.propertyType){
+      filters["propertyType"] = query.propertyType;
+    }
+
+    if(query.bedrooms){
+      filters["bedrooms"] = query.bedrooms;
+    }
+
+    return this.propertyModel.find(filters).exec();
   }
 }

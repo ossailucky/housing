@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Req, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFiles, Options, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Req, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFiles, Options, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { PropertylistsService } from './propertylists.service';
-import { CreatePropertylistDto } from './dto/create-propertylist.dto';
+import { CreatePropertylistDto, SearchDto } from './dto/create-propertylist.dto';
 import { UpdatePropertylistDto } from './dto/update-propertylist.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
@@ -24,8 +24,8 @@ const storage ={
 })
 }
 
-@ApiTags("listproperty")
-@Controller({version: "1", path: "listproperty"})
+@ApiTags("properties")
+@Controller({version: "1", path: "properties"})
 export class PropertylistsController {
   constructor(private readonly propertylistsService: PropertylistsService) {}
 
@@ -62,13 +62,13 @@ export class PropertylistsController {
     return this.propertylistsService.findAll();
   }
 
-  @Get(':id')
+  @Get('list/:id')
   findOne(@Param('id') id: string) {
     return this.propertylistsService.findOne(id);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch(':id')
+  @Patch('list/:id')
   update(@Param('id') id: string, @Body() updatePropertylistDto: UpdatePropertylistDto, @Req() {user}:any) {
     if(!user._doc._id ){
       throw new HttpException("Forbidden", HttpStatus.FORBIDDEN)
@@ -78,8 +78,13 @@ export class PropertylistsController {
 
   @hasRoles(Role.ADMIN, Role.AGENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Delete(':id')
+  @Delete('list/:id')
   remove(@Param('id') id: string, @Req() {user}: any) {
     return this.propertylistsService.remove(id, user._doc._id);
+  }
+
+  @Get('search')
+  async search(@Query() query: SearchDto) {
+    return this.propertylistsService.searchProperties(query);
   }
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 
 export class CreatePropertylistDto {
@@ -9,6 +9,18 @@ export class CreatePropertylistDto {
     propertyLocation: string;
     pricePerMonth: number;
     totalPackage: number;
+};
 
+export class SearchDto{
+    @IsOptional()
+    @IsString()
+    propertyLocation:string;
 
+    @IsOptional()
+    @IsString()
+    propertyType:string;
+
+    @IsOptional()
+    @IsString()
+    bedrooms:number;
 }
