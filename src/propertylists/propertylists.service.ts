@@ -94,6 +94,12 @@ export class PropertylistsService {
       filters["bedrooms"] = query.bedrooms;
     }
 
-    return this.propertyModel.find(filters).exec();
+    try {
+      return this.propertyModel.find(filters).exec();
+    } catch (error) {
+      return error;
+    }
+
+    
   }
 }
