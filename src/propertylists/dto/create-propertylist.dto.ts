@@ -1,14 +1,41 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsNumber} from "class-validator";
 
 
 export class CreatePropertylistDto {
     agent: string;
+
     propertyImages: string[];
+
+    @IsNumber()
     propertyTitle: string;
+
+    @IsString()
     propertyDesc: string;
+
+    @IsString()
     propertyLocation: string;
+
+    @IsNumber()
     pricePerMonth: number;
+
+    @IsNumber()
     totalPackage: number;
+
+    @IsNumber()
+    bedrooms: number;
+
+    @IsString()
+    propertyAddress: string;
+
+    @IsOptional()
+    @IsNumber()
+    bathrooms: string;
+
+    @IsOptional()
+    @IsNumber()
+    tiolets: string;
+
+
 };
 
 export class SearchDto{
@@ -21,6 +48,6 @@ export class SearchDto{
     propertyType:string;
 
     @IsOptional()
-    @IsString()
+    @IsNumber()
     bedrooms:number;
 }

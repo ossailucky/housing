@@ -35,6 +35,10 @@ export class PropertylistsService {
           propertyLocation: createPropertylistDto.propertyLocation,
           pricePerMonth: createPropertylistDto.pricePerMonth,
           totalPackage: createPropertylistDto.totalPackage,
+          bedrooms: createPropertylistDto.bedrooms,
+          propertyAddress: createPropertylistDto.propertyAddress,
+          bathrooms: createPropertylistDto.bathrooms,
+          tiolets: createPropertylistDto.tiolets
         })
         if(property){
           const saveProperty = await property.save();

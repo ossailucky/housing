@@ -33,6 +33,15 @@ export class Propertylist {
     @Prop({type: Number})
     bedrooms: number;
 
+    @Prop({type: String})
+    propertyAddress: string;
+    
+    @Prop({type: String})
+    bathrooms: string;
+
+    @Prop({type: String})
+    tiolets: string;
+
 }
 
 export const PropertySchema = SchemaFactory.createForClass(Propertylist);
