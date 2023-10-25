@@ -39,7 +39,8 @@ export class PropertylistsService {
           propertyAddress: createPropertylistDto.propertyAddress,
           bathrooms: createPropertylistDto.bathrooms,
           tiolets: createPropertylistDto.tiolets
-        })
+        });
+        
         if(property){
           const saveProperty = await property.save();
           await this.userService.saveProperty(createPropertylistDto.agent,saveProperty._id);
