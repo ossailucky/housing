@@ -13,20 +13,29 @@ export enum Role {
 export class User {
   @Prop({ type: String, required: true })
   name: string;
+
   @Prop({ type: String, required: true, index: true, unique: true})
   email: string;
+
   @Prop({ type: Number})
   phone: number;
+
   @Prop({ type: String, required: true, index: true })
   password: string;
+
+
   @Prop({ type: String, index:true })
   sex: string;
+
   @Prop({ type: String})
   subcribeToPackage: boolean;
+
   @Prop({type: String})
   profileImage: string;
+
   @Prop([{type: mongoose.Schema.Types.ObjectId, ref: "Propertylist"}])
    properties: Propertylist[];
+
   @Prop({type: String, enum: Role, default: Role.AGENT})
   role:Role;
 }

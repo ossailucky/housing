@@ -23,7 +23,8 @@ export class UserService {
 
   async findUserData(user: AuthDTO): Promise<any>{
 
-    return await this.userModel.findOne({email: user.email});
+    const info = await this.userModel.findOne({email: user.email});
+    
   }
 
   async findData(id:string): Promise<User>{
