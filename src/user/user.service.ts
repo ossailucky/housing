@@ -23,7 +23,7 @@ export class UserService {
 
   async findUserData(user: AuthDTO): Promise<any>{
 
-    return await this.userModel.findOne({email: user.email});
+   return await this.userModel.findOne({email: user.email});
     
   }
 
