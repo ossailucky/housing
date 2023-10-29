@@ -17,13 +17,35 @@ export class UserService {
       email: body.email,
       password: hashPassword,
     });
+
+    try {
+
+      return dataBody.save();
+
+    } catch (error) {
+
+      throw error;
+    }
     
-    return dataBody.save();
+    
   }
 
   async findUserData(user: AuthDTO): Promise<any>{
 
-   return await this.userModel.findOne({email: user.email});
+    try {
+      const userFound = await this.userModel.findOne({email: user.email});
+
+      if(!userFound){
+        return "user not foumd";
+      }
+
+      return userFound;
+    } catch (error) {
+      
+      throw error;
+    }
+
+   
     
   }
 
