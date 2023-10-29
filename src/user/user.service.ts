@@ -98,34 +98,59 @@ export class UserService {
   }
 
   async uploadProfileImage(id: string, imageName: string): Promise<boolean>{
-    const query = await this.userModel.updateOne({_id: id}, {profileImage: imageName});
     
-   if(query.matchedCount > 0){
-    return true;
-   }
-   return false;
+    try {
+    const query = await this.userModel.updateOne({_id: id}, {profileImage: imageName});
+    if(query.matchedCount > 0){
+      return true;
+     }
+     return false;
+    } catch (error) {
+      throw error;
+    }
+   
     
   }
 
   async subscribedPackage(id: string, packageName: string): Promise<string>{
     const query = await this.userModel.updateOne({_id:id}, {subcribeToPackage: packageName});
-    if(query) return "subscription successfull";
+    
+    try {
+      if(!query) return "subscription failed";
 
-    return "subscription failed";
+      return "subscription successfull";
+    } catch (error) {
+      throw error;
+    }
+   
+
+    
   }
 
  async remove(id: string): Promise<boolean> {
-  const query = await this.userModel.findByIdAndDelete(id);
 
+
+  try {
+  const query = await this.userModel.findByIdAndDelete(id);
   if(!query){
     return false;
   }
   return true;
+  } catch (error) {
+    throw error;
+  }
+  
 }
 
 
   async saveProperty(user_id:string, id: any): Promise<any>{
   
-    return  await this.userModel.updateOne({_id:user_id}, { $push: {properties:id}})
+
+    try {
+    return  await this.userModel.updateOne({_id:user_id}, { $push: {properties:id}});
+      
+    } catch (error) {
+      throw error;
+    }
 }
 }
