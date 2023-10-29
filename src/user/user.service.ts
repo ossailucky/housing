@@ -50,11 +50,30 @@ export class UserService {
   }
 
   async findData(id:string): Promise<User>{
-    return await this.userModel.findById(id);
+    
+    try {
+      const user = await this.userModel.findById(id);
+
+      if(!user){
+        return null;
+      }
+
+      return user;
+    } catch (error) {
+      throw error
+    }
   }
 
   async findAll(): Promise<any> {
-    return await this.userModel.find({},{password:0}).populate("properties");
+    
+
+    try {
+      const users = await this.userModel.find({},{password:0}).populate("properties");
+
+      return users
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findOne(id: string): Promise<User> {
@@ -63,12 +82,18 @@ export class UserService {
 
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<boolean>  {
-    const query = await this.userModel.updateOne({_id: id},updateUserDto);
 
+    try {
+    const query = await this.userModel.updateOne({_id: id},updateUserDto);
+    
     if(query.matchedCount > 0) {
       return true;
     }
     return false;
+    } catch (error) {
+      throw error;
+    }
+    
 
   }
 
