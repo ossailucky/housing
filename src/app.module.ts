@@ -8,6 +8,8 @@ import 'dotenv/config';
 import { MulterModule } from '@nestjs/platform-express/multer';
 import { PropertylistsModule } from './propertylists/propertylists.module';
 import { SubcribeModule } from './subcribe/subcribe.module';
+import { APP_FILTER } from '@nestjs/core';
+import { DuplicateValueExceptionFilter } from './duplicate-value-exception.filter';
 
 @Module({
   imports: [ 
@@ -20,6 +22,12 @@ import { SubcribeModule } from './subcribe/subcribe.module';
     PropertylistsModule,
     SubcribeModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: DuplicateValueExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}
