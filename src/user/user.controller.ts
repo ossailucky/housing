@@ -68,6 +68,14 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
+  
+  @hasRoles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard)
+  @Patch("make-admin/:id")
+  makeAdmin(@Param("id") id:string){
+    return this.userService.updateRole(id);
+  }
+
   @Patch()
   @UseGuards(JwtAuthGuard)
   update(@Body() updateUserDto: UpdateUserDto,@Req() { user }: any) {

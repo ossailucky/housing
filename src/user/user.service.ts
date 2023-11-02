@@ -97,6 +97,18 @@ export class UserService {
 
   }
 
+  async updateRole(id: string): Promise<String> {
+    try {
+      const query = await this.userModel.updateOne({_id:id}, {role: "admin"});
+
+      if(query.matchedCount > 0 ){
+        return "User is now an Admin";
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async uploadProfileImage(id: string, imageName: string): Promise<boolean>{
     
     try {
