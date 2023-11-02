@@ -15,39 +15,91 @@ export class SubcribeService {
     packagePrice: body.packagePrice,
     propertyLimit: body.propertyLimit
   });
+
+  try {
     return data.save();
+    
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findAll(): Promise<any> {
+    try {
     return await this.subcriptionModel.find({});
+
+    } catch (error) {
+      throw error;
+    }
   }
 
  async findOne(id: string): Promise<Subscription> {
-    return await this.subcriptionModel.findById(id);
+
+  try {
+    const query = await this.subcriptionModel.findById(id);
+
+    if(query){
+      return query;
+    }
+  } catch (error) {
+    throw error;
+  }
+    
   }
 
  async update(id: string, body: UpdateSubcribeDto): Promise<boolean> {
-  const query = await this.subcriptionModel.updateOne({_id:id}, body);
-  if(query.matchedCount) return true;
+  
+
+  try {
+    const query = await this.subcriptionModel.updateOne({_id:id}, body);
+    if(query.matchedCount) return true;
+
     return false;
+
+  } catch (error) {
+    throw error;
+  }
+  
   }
 
  async buyPackage(id: string, userId:string){
-  const query = this.subcriptionModel.findOne({_id:id});
-  const packageName = (await query).packageName;
-  return await this.userService.subscribedPackage(userId,packageName);
+  try {
+    const query = this.subcriptionModel.findOne({_id:id});
+    const packageName = (await query).packageName;
+    return await this.userService.subscribedPackage(userId,packageName);
+  } catch (error) {
+    throw error;
+  }
+  
   
  }
 
  async findByname(name: string): Promise<Subscription>{
-  return await this.subcriptionModel.findOne({packageName: name});
+  try {
+    const query = await this.subcriptionModel.findOne({packageName: name});
+
+    if(query){
+      return query;
+    }
+
+    
+  } catch (error) {
+    throw error;
+  }
+  
  }
   
 
  async remove(id: string): Promise<boolean> {
-  const query = await this.subcriptionModel.findByIdAndDelete(id);
-  if(query) return true;
+  try {
+    const query = await this.subcriptionModel.findByIdAndDelete(id);
+
+    if(query) return true;
     
-  return false;
+    return false;
+  } catch (error) {
+    throw error;
+  }
+  
   }
 }
