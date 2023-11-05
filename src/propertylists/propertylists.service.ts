@@ -44,7 +44,6 @@ export class PropertylistsService {
               totalPackage: createPropertylistDto.totalPackage,
               AgentFee: createPropertylistDto.agentFee,
               bedrooms: createPropertylistDto.bedrooms,
-              propertyAddress: createPropertylistDto.propertyAddress,
               bathrooms: createPropertylistDto.bathrooms,
               tiolets: createPropertylistDto.tiolets
             });

@@ -46,8 +46,6 @@ export class CreatePropertylistDto {
     @IsNumber()
     bedrooms: number;
 
-    @IsString()
-    propertyAddress: string;
 
     @IsOptional()
     @IsNumber()
