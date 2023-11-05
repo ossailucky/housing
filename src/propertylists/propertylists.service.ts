@@ -17,37 +17,47 @@ export class PropertylistsService {
 
       const user = await this.userService.findData(createPropertylistDto.agent);
 
-      const plan = await this.subscribeService.findByname(user.subcribeToPackage.toString())
       
       
       if(user.subcribeToPackage === null || user.subcribeToPackage === undefined){
         throw new HttpException("You are not subscribed to any of our plans", HttpStatus.FORBIDDEN);
-      } else if(user.properties.length >= plan.propertyLimit){
-        throw new HttpException("you have reach your property listing limit for your plan", HttpStatus.FORBIDDEN);
+      } else{
+          const plan = await this.subscribeService.findByname(user.subcribeToPackage.toString());
+
+          if(user.properties.length >= plan.propertyLimit){
+            throw new HttpException("you have reach your property listing limit for your plan", HttpStatus.FORBIDDEN);
+          }
+          else{
+            const property = new this.propertyModel({
+              agent: createPropertylistDto.agent,
+              propertyImages: createPropertylistDto.propertyImages,
+              propertyTitle: createPropertylistDto.propertyTitle,
+              propertyDesc: createPropertylistDto.propertyDesc,
+              propertyLocation: createPropertylistDto.propertyLocation,
+              pricePerMonth: createPropertylistDto.pricePerMonth,
+              totalPackage: createPropertylistDto.totalPackage,
+              bedrooms: createPropertylistDto.bedrooms,
+              propertyAddress: createPropertylistDto.propertyAddress,
+              bathrooms: createPropertylistDto.bathrooms,
+              tiolets: createPropertylistDto.tiolets
+            });
+            
+            try {
+              const saveProperty = await property.save();
+
+              await this.userService.saveProperty(createPropertylistDto.agent,saveProperty._id);
+
+              return saveProperty;
+            } catch (error) {
+              throw error;
+            }
+  
+          }
+
+        
 
       }
-      else{
-        const property = new this.propertyModel({
-          agent: createPropertylistDto.agent,
-          propertyImages: createPropertylistDto.propertyImages,
-          propertyTitle: createPropertylistDto.propertyTitle,
-          propertyDesc: createPropertylistDto.propertyDesc,
-          propertyLocation: createPropertylistDto.propertyLocation,
-          pricePerMonth: createPropertylistDto.pricePerMonth,
-          totalPackage: createPropertylistDto.totalPackage,
-          bedrooms: createPropertylistDto.bedrooms,
-          propertyAddress: createPropertylistDto.propertyAddress,
-          bathrooms: createPropertylistDto.bathrooms,
-          tiolets: createPropertylistDto.tiolets
-        });
-        
-        if(property){
-          const saveProperty = await property.save();
-          await this.userService.saveProperty(createPropertylistDto.agent,saveProperty._id);
-          return saveProperty;
-        }
-      return 'could not add property';
-      }
+      
       
   }
 
