@@ -41,6 +41,9 @@ export class Propertylist {
     @Prop({type: Number})
     totalPackage: number;
 
+    @Prop({type: Number})
+    AgentFee: number;
+
     @Prop({type: String})
     propertyType:string;
 

@@ -57,6 +57,7 @@ export class PropertylistsController {
           pricePerMonth: createPropertylistDto.pricePerMonth,
           totalPackage: createPropertylistDto.totalPackage,
           bedrooms: createPropertylistDto.bedrooms,
+          agentFee:createPropertylistDto.agentFee,
           propertyAddress: createPropertylistDto.propertyAddress,
           bathrooms: createPropertylistDto.bathrooms,
           tiolets: createPropertylistDto.tiolets

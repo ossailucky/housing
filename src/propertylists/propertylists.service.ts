@@ -42,6 +42,7 @@ export class PropertylistsService {
               sittingRoom: createPropertylistDto.sittingRoom,
               pricePerMonth: createPropertylistDto.pricePerMonth,
               totalPackage: createPropertylistDto.totalPackage,
+              AgentFee: createPropertylistDto.agentFee,
               bedrooms: createPropertylistDto.bedrooms,
               propertyAddress: createPropertylistDto.propertyAddress,
               bathrooms: createPropertylistDto.bathrooms,

@@ -29,7 +29,7 @@ export class CreatePropertylistDto {
 
     @IsString()
     address: string;
-    
+
     @IsString()
     sittingRoom: number;
 
@@ -38,6 +38,10 @@ export class CreatePropertylistDto {
 
     @IsNumber()
     totalPackage: number;
+
+    @IsNumber()
+    agentFee: number;
+
 
     @IsNumber()
     bedrooms: number;
