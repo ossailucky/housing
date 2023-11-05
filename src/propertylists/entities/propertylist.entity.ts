@@ -20,6 +20,21 @@ export class Propertylist {
     @Prop({type: String})
     propertyLocation: string;
 
+    @Prop({type: String})
+    category: string;
+
+    @Prop({type: String})
+    state: string;
+
+    @Prop({type: String})
+    city: string;
+
+    @Prop({type: String})
+    address: string;
+
+    @Prop({type: Number})
+    sittingRoom: number;
+
     @Prop({type: Number})
     pricePerMonth: number;
 

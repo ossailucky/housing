@@ -15,6 +15,24 @@ export class CreatePropertylistDto {
     @IsString()
     propertyLocation: string;
 
+    @IsString()
+    category: string;
+
+    @IsString()
+    type: string;
+
+    @IsString()
+    state: string;
+
+    @IsString()
+    city: string;
+
+    @IsString()
+    address: string;
+    
+    @IsString()
+    sittingRoom: number;
+
     @IsNumber()
     pricePerMonth: number;
 
