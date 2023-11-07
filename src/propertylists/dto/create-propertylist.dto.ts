@@ -9,7 +9,7 @@ export class CreatePropertylistDto {
     @IsNumber()
     propertyTitle: string;
 
-    @IsString()
+    @IsString({message:"field must be a string"})
     propertyDesc: string;
 
     @IsString()
@@ -30,30 +30,30 @@ export class CreatePropertylistDto {
     @IsString()
     address: string;
 
-    @IsString()
+    @IsNumber({},{ message: 'Custom error message: This field must be a number' })
     sittingRoom: number;
 
-    @IsNumber()
+    @IsNumber({},{ message: 'Custom error message: This field must be a number' })
     pricePerMonth: number;
 
-    @IsNumber()
+    @IsNumber({},{ message: 'Custom error message: This field must be a number' })
     totalPackage: number;
 
-    @IsNumber()
+    @IsNumber({},{ message: 'Custom error message: This field must be a number' })
     agentFee: number;
 
 
-    @IsNumber()
+    @IsNumber({},{ message: 'Custom error message: This field must be a number' })
     bedrooms: number;
 
 
     @IsOptional()
-    @IsNumber()
-    bathrooms: string;
+    @IsNumber({},{ message: 'Custom error message: This field must be a number' })
+    bathrooms: number;
 
     @IsOptional()
-    @IsNumber()
-    tiolets: string;
+    @IsNumber({},{ message: 'Custom error message: This field must be a number' })
+    tiolets: number;
 
 
 };

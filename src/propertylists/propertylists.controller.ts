@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFiles, Options, HttpException, HttpStatus, Query } from '@nestjs/common';
+import { Controller, Get, Post, Req, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFiles, Options, HttpException, HttpStatus, Query,UseFilters } from '@nestjs/common';
 import { PropertylistsService } from './propertylists.service';
 import { CreatePropertylistDto, SearchDto } from './dto/create-propertylist.dto';
 import { UpdatePropertylistDto } from './dto/update-propertylist.dto';
@@ -11,6 +11,7 @@ import path = require("path");
 import { RolesGuard } from 'src/auth/guards/roles.guards';
 import { hasRoles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/user/entities/user.entity';
+import { CustomHttpExceptionFilter } from 'src/CustomHttpExceptionFilter';
 
 const storage ={
   storage: diskStorage({
@@ -26,6 +27,7 @@ const storage ={
 
 @ApiTags("properties")
 @Controller({version: "1", path: "properties"})
+@UseFilters(CustomHttpExceptionFilter)
 export class PropertylistsController {
   constructor(private readonly propertylistsService: PropertylistsService) {}
 
