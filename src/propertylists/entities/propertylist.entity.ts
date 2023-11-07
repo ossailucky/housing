@@ -24,6 +24,9 @@ export class Propertylist {
     category: string;
 
     @Prop({type: String})
+    type: string;
+
+    @Prop({type: String})
     state: string;
 
     @Prop({type: String})
