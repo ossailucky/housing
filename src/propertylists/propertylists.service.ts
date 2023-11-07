@@ -107,12 +107,19 @@ export class PropertylistsService {
       filters["propertyLocation"] = query.propertyLocation;
     }
 
-    if(query.propertyType){
-      filters["propertyType"] = query.propertyType;
+    if(query.category){
+      filters["category"] = query.category;
+    }
+
+    if(query.type){
+      filters["type"] = query.type;
     }
 
     if(query.bedrooms){
       filters["bedrooms"] = query.bedrooms;
+    }
+    if(query.city){
+      filters["city"] =query.city
     }
 
     try {

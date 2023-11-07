@@ -65,9 +65,17 @@ export class SearchDto{
 
     @IsOptional()
     @IsString()
-    propertyType:string;
+    category:string;
+
+    @IsOptional()
+    @IsString()
+    type:string;
 
     @IsOptional()
     @IsNumber()
     bedrooms:number;
+
+    @IsOptional()
+    @IsString()
+    city:string;
 }
