@@ -119,7 +119,7 @@ export class PropertylistsService {
       filters["bedrooms"] = query.bedrooms;
     }
     if(query.city){
-      filters["city"] =query.city
+      filters["city"] = query.city
     }
 
     try {
@@ -129,5 +129,13 @@ export class PropertylistsService {
     }
 
     
+  }
+
+  async agentProperties(id: string): Promise<Propertylist[]> {
+    try {
+      return await this.propertyModel.find({agent:id}).populate("agent",["email","name","phone", "profileImage"]);
+    } catch (error) {
+      throw error;
+    }
   }
 }

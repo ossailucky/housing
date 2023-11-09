@@ -56,11 +56,11 @@ export class Propertylist {
     @Prop({type: String})
     propertyAddress: string;
     
-    @Prop({type: String})
-    bathrooms: string;
+    @Prop({type: Number})
+    bathrooms: number;
 
-    @Prop({type: String})
-    tiolets: string;
+    @Prop({type: Number})
+    tiolets: number;
 
 }
 

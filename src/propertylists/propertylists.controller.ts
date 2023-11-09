@@ -78,6 +78,20 @@ export class PropertylistsController {
     return this.propertylistsService.findOne(id);
   }
 
+  @hasRoles(Role.AGENT)
+  @UseGuards(JwtAuthGuard)
+  @Get("/agent")
+  agentProperties(@Req() { user }: any) {
+    if(!user){
+      throw new HttpException("Forbbiden", HttpStatus.FORBIDDEN);
+    }
+    try {
+      return this.propertylistsService.agentProperties(user._doc._id);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   @UseGuards(JwtAuthGuard)
   @Patch('list/:id')
   update(@Param('id') id: string, @Body() updatePropertylistDto: UpdatePropertylistDto, @Req() {user}:any) {
