@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFiles, Options, HttpException, HttpStatus, Query,UseFilters } from '@nestjs/common';
+import { Controller, Get, Post,Res, Req, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFiles, Options, HttpException, HttpStatus, Query,UseFilters } from '@nestjs/common';
 import { PropertylistsService } from './propertylists.service';
 import { CreatePropertylistDto, SearchDto } from './dto/create-propertylist.dto';
 import { UpdatePropertylistDto } from './dto/update-propertylist.dto';
@@ -12,6 +12,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guards';
 import { hasRoles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/user/entities/user.entity';
 import { CustomHttpExceptionFilter } from 'src/CustomHttpExceptionFilter';
+import { join } from 'path';
 
 const storage ={
   storage: diskStorage({
@@ -76,6 +77,11 @@ export class PropertylistsController {
   @Get('list/:id')
   findOne(@Param('id') id: string) {
     return this.propertylistsService.findOne(id);
+  }
+
+  @Get("images/:imagename")
+  findPfrofileImage(@Param("imagename") imagename, @Res() res){
+    return res.sendFile(join(process.cwd(), "./uploads/properties/" + imagename));
   }
 
   @hasRoles(Role.AGENT)
