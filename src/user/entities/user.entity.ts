@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose,{ Document} from "mongoose";
+import mongoose,{ Date, Document} from "mongoose";
 import { Propertylist } from "src/propertylists/entities/propertylist.entity";
 
 export type UserDocument = User & Document;
@@ -8,6 +8,7 @@ export enum Role {
   ADMIN = "admin",
   AGENT = "agent"
 }
+
 
 @Schema({timestamps:true})
 export class User {
@@ -29,6 +30,9 @@ export class User {
 
   @Prop({ type: String})
   subcribeToPackage: boolean;
+
+  @Prop([{plan: String, startDate: Date, endDate: Date, addedPropertyCount: Number}])
+  subscriptionInfo: {plan: string; startDate: Date; endDate: Date, addedPropertyCount: number}[];
 
   @Prop({type: String})
   profileImage: string;
