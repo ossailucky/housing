@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserService } from 'src/user/user.service';
-import { CreateSubcribeDto } from './dto/create-subcribe.dto';
+import { CreateSubcribeDto, packageInfo } from './dto/create-subcribe.dto';
 import { UpdateSubcribeDto } from './dto/update-subcribe.dto';
 import { Subscription, SubscriptionDocument } from './entities/subcribe.entity';
 
@@ -62,11 +62,44 @@ export class SubcribeService {
   
   }
 
- async buyPackage(id: string, userId:string){
+ async buyPackage(id: string, userId:string, body: packageInfo){
+
+  const startDate = new Date();
+  let endDate: Date;
+
+  switch(body.plan){
+    case "monthly":
+      endDate = new Date(startDate);
+      endDate.setMonth(endDate.getMonth() + 1);
+      break;
+    case "bi-annual":
+      endDate = new Date(startDate);
+      endDate.setMonth(endDate.getMonth() + 6);
+      break;
+    case "annual":
+      endDate = new Date(startDate);
+      endDate.setFullYear(endDate.getFullYear() + 1);
+      break;
+    default:
+      throw new Error("Invalid subscription duration");
+  }
+
+  console.log(startDate);
+  
+
+  const info = {
+    plan: body.plan,
+    startDate: startDate,
+    endDate:endDate,
+    addedPropertyCount: 0,
+  }
   try {
+
+
+
     const query = this.subcriptionModel.findOne({_id:id});
     const packageName = (await query).packageName;
-    return await this.userService.subscribedPackage(userId,packageName);
+    return await this.userService.subscribedPackage(userId,packageName, info);
   } catch (error) {
     throw error;
   }

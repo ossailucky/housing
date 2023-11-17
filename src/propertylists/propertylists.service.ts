@@ -15,16 +15,21 @@ export class PropertylistsService {
   constructor(@InjectModel(Propertylist.name) private propertyModel: Model<PropertyDocument>, private userService:UserService, private subscribeService: SubcribeService){}
     async create(createPropertylistDto:CreatePropertylistDto): Promise<any>{
 
+      const currentDate = new Date().toString();
       const user = await this.userService.findData(createPropertylistDto.agent);
-
+      //const documents = await this.userService.checkDate(currentDate);
+      
       
       
       if(user.subcribeToPackage === null || user.subcribeToPackage === undefined){
         throw new HttpException("You are not subscribed to any of our plans", HttpStatus.FORBIDDEN);
-      } else{
+      } else if(currentDate > user.subscriptionInfo[0].endDate?.toString()){
+        return await this.userService.unsubscribe(createPropertylistDto.agent);
+      }
+       else{
           const plan = await this.subscribeService.findByname(user.subcribeToPackage.toString());
 
-          if(user.properties.length >= plan.propertyLimit){
+          if(user.subscriptionInfo[0].addedPropertyCount >= plan.propertyLimit){
             throw new HttpException("you have reach your property listing limit for your plan", HttpStatus.FORBIDDEN);
           }
           else{

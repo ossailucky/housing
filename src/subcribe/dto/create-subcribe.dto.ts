@@ -11,3 +11,9 @@ export class CreateSubcribeDto {
     @IsNumber()
     propertyLimit: number;
 }
+
+ export class packageInfo {
+    @IsNotEmpty({message: "package must have a duration"})
+    @IsString({message: "pacakage name must be a string"})
+    plan: string;
+ }

@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { SubcribeService } from './subcribe.service';
-import { CreateSubcribeDto } from './dto/create-subcribe.dto';
+import { CreateSubcribeDto, packageInfo } from './dto/create-subcribe.dto';
 import { UpdateSubcribeDto } from './dto/update-subcribe.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { hasRoles } from 'src/auth/decorators/roles.decorator';
@@ -39,12 +39,12 @@ export class SubcribeController {
     return this.subcribeService.update(id, updateSubcribeDto);
   }
 
-  @hasRoles(Role.AGENT)
+  //@hasRoles(Role.AGENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch("buypackage/:id")
-  buyPackage(@Param("id") id: string, @Req() { user }: any){
+  buyPackage(@Param("id") id: string, @Body() body: packageInfo, @Req() { user }: any){
     
-    return this.subcribeService.buyPackage(id, user._doc._id);
+    return this.subcribeService.buyPackage(id, user._doc._id, body);
 
   }
 

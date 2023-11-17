@@ -4,7 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { User, UserDocument } from './entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model} from 'mongoose';
+import { Date, Model} from 'mongoose';
 import { AuthDTO } from 'src/auth/dto/auth.user';
 
 @Injectable()
@@ -124,13 +124,27 @@ export class UserService {
     
   }
 
-  async subscribedPackage(id: string, packageName: string): Promise<string>{
-    const query = await this.userModel.updateOne({_id:id}, {subcribeToPackage: packageName});
+  async subscribedPackage(id: string, packageName: string, subscriptionInfo: {} ): Promise<string>{
+    const query = await this.userModel.updateOne({_id:id}, {subcribeToPackage: packageName, subscriptionInfo:subscriptionInfo});
     
     try {
       if(!query) return "subscription failed";
 
       return "subscription successfull";
+    } catch (error) {
+      throw error;
+    }
+   
+
+    
+  }
+
+  async unsubscribe(id: string): Promise<string>{
+    const query = await this.userModel.updateOne({_id:id}, {subcribeToPackage: null, subscriptionInfo:[]});
+    
+    try {
+      if(query) return "subscription expired";
+
     } catch (error) {
       throw error;
     }
@@ -159,10 +173,16 @@ export class UserService {
   
 
     try {
-    return  await this.userModel.updateOne({_id:user_id}, { $push: {properties:id}});
+    return  await this.userModel.updateOne({_id:user_id}, { $push: {properties:id},  $inc: { "subscriptionInfo.0.addedPropertyCount": 1 } }).exec();
       
     } catch (error) {
       throw error;
     }
+}
+
+async checkDate(date: any) {
+  return await this.userModel.find({
+    subscriptionInfo: [{endDate:{ $gte: date }}],
+  }).exec();
 }
 }
