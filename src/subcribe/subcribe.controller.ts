@@ -39,7 +39,7 @@ export class SubcribeController {
     return this.subcribeService.update(id, updateSubcribeDto);
   }
 
-  //@hasRoles(Role.AGENT)
+  @hasRoles(Role.AGENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch("buypackage/:id")
   buyPackage(@Param("id") id: string, @Body() body: packageInfo, @Req() { user }: any){

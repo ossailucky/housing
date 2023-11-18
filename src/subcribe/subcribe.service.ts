@@ -26,7 +26,10 @@ export class SubcribeService {
 
   async findAll(): Promise<any> {
     try {
-    return await this.subcriptionModel.find({});
+      
+      
+      return await this.subcriptionModel.find({});
+  
 
     } catch (error) {
       throw error;
@@ -84,7 +87,6 @@ export class SubcribeService {
       throw new Error("Invalid subscription duration");
   }
 
-  console.log(startDate);
   
 
   const info = {

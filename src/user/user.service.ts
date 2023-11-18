@@ -180,9 +180,29 @@ export class UserService {
     }
 }
 
-async checkDate(date: any) {
-  return await this.userModel.find({
-    subscriptionInfo: [{endDate:{ $gte: date }}],
-  }).exec();
-}
+async checkDay() {
+  try {
+    const currentDay = new Date().getDate();
+    const users = await this.userModel.updateMany({
+      $expr:{
+          $eq: [{$dayOfMonth: {$arrayElemAt:['$subscriptionInfo.endDate',0]}}, currentDay],         
+  
+      }
+    },
+    {
+      $set: { 'subscriptionInfo.0.addedPropertyCount': 0 },
+    }
+    ).exec();
+    
+    return users
+  } catch (error) {
+    console.error('Error in getUsersWithSubscriptionEndingToday:', error.message);
+      throw error;
+  }
+  
+
+  
+  
+  
+  }
 }
