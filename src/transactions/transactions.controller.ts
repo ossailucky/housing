@@ -12,7 +12,7 @@ export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   
-  //@hasRoles(Role.ADMIN)
+  @hasRoles(Role.ADMIN)
   @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
