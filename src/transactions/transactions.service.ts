@@ -22,8 +22,12 @@ export class TransactionsService {
     
   }
 
-  findAll() {
-    return `This action returns all transactions`;
+  async findAll(): Promise<Transaction[]> {
+    try {
+      return await this.transactionModel.find({}).populate("agent",["name","email","phone"]).exec();
+    } catch (error) {
+      throw error;
+    }
   }
 
   findOne(id: number) {
