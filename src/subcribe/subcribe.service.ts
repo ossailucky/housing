@@ -5,10 +5,11 @@ import { UserService } from 'src/user/user.service';
 import { CreateSubcribeDto, packageInfo } from './dto/create-subcribe.dto';
 import { UpdateSubcribeDto } from './dto/update-subcribe.dto';
 import { Subscription, SubscriptionDocument } from './entities/subcribe.entity';
+import { TransactionsService } from 'src/transactions/transactions.service';
 
 @Injectable()
 export class SubcribeService {
-  constructor(@InjectModel(Subscription.name) private subcriptionModel: Model<SubscriptionDocument>, private userService: UserService) {}
+  constructor(@InjectModel(Subscription.name) private subcriptionModel: Model<SubscriptionDocument>, private userService: UserService, private transactionService: TransactionsService) {}
  async create(body: CreateSubcribeDto): Promise<Subscription> {
   const data = new this.subcriptionModel({
     packageName: body.packageName,
@@ -95,12 +96,20 @@ export class SubcribeService {
     endDate:endDate,
     addedPropertyCount: 0,
   }
+
+  
   try {
 
 
 
     const query = this.subcriptionModel.findOne({_id:id});
     const packageName = (await query).packageName;
+    const transactionInfo = {
+      agent: userId,
+      subscription: packageName,
+      type: body.plan
+    }
+    await this.transactionService.create(transactionInfo);
     return await this.userService.subscribedPackage(userId,packageName, info);
   } catch (error) {
     throw error;

@@ -11,6 +11,7 @@ import { SubcribeModule } from './subcribe/subcribe.module';
 import { APP_FILTER } from '@nestjs/core';
 import { DuplicateValueExceptionFilter } from './duplicate-value-exception.filter';
 import { SchedulingModule } from './scheduling/scheduling.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [ 
@@ -22,7 +23,8 @@ import { SchedulingModule } from './scheduling/scheduling.module';
     AuthModule,
     PropertylistsModule,
     SubcribeModule,
-    SchedulingModule],
+    SchedulingModule,
+    TransactionsModule],
   controllers: [AppController],
   providers: [
     AppService,
