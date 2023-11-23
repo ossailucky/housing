@@ -15,15 +15,15 @@ export class PropertylistsService {
   constructor(@InjectModel(Propertylist.name) private propertyModel: Model<PropertyDocument>, private userService:UserService, private subscribeService: SubcribeService){}
     async create(createPropertylistDto:CreatePropertylistDto): Promise<any>{
 
-      const currentDate = new Date().toString();
+      const currentDate = new Date();
       const user = await this.userService.findData(createPropertylistDto.agent);
-      //const documents = await this.userService.checkDate(currentDate);
-      
+      const endDate = user.subscriptionInfo[0].endDate.toString();
+      const newDate = new Date(endDate);
       
       
       if(user.subcribeToPackage === null || user.subcribeToPackage === undefined){
         throw new HttpException("You are not subscribed to any of our plans", HttpStatus.FORBIDDEN);
-      } else if(currentDate > user.subscriptionInfo[0].endDate?.toString()){
+      } else if(currentDate > newDate){
         return await this.userService.unsubscribe(createPropertylistDto.agent);
       }
        else{
