@@ -128,7 +128,7 @@ export class PropertylistsService {
     }
 
     try {
-      return this.propertyModel.find(filters).exec();
+      return this.propertyModel.find(filters).populate("agent",["email","name","phone", "profileImage"]).exec();
     } catch (error) {
       return error;
     }
